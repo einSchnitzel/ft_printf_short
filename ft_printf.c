@@ -6,7 +6,7 @@
 /*   By: smetzler <smetzler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 13:50:48 by smetzler          #+#    #+#             */
-/*   Updated: 2021/09/23 17:00:23 by smetzler         ###   ########.fr       */
+/*   Updated: 2021/09/24 15:05:05 by smetzler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ int	ft_signed(long n, unsigned int base, char *s, int len)
 	}
 	if (n >= 0)
 	{
-		len = ft_u(n / base, base, s, len);
+		len = ft_u(n, base, s, len);
 	}
-	len = ft_putcharinc_fd(s[n % base], 1, len);
 	return (len);
 }
 
-int	ft_u(long n, unsigned int base, char *s, int len)
+int	ft_u(unsigned int n, unsigned int base, char *s, int len)
 {
-	if (n > base)
+	if (n >= base)
 	{
 		len = ft_u(n / base, base, s, len);
 	}
@@ -41,6 +40,20 @@ int	ft_u(long n, unsigned int base, char *s, int len)
 	return (len);
 }
 
+int	ft_p(unsigned long ptr, unsigned int base, char *s, int len)
+{
+	if (ptr >= base)
+	{
+		len = ft_p(ptr / base, base, s, len);
+	}
+	len = ft_putcharinc_fd(s[ptr % base], 1, len);
+	return (len);
+}
+
+/*
+** Check data type passed and start the corresponding function to
+** print out the corresponding data type
+*/
 int	ft_checktype(const char *s, int i, int len, va_list *args)
 {
 	if (s[i] == '%')
@@ -52,16 +65,16 @@ int	ft_checktype(const char *s, int i, int len, va_list *args)
 	else if (s[i] == 'd' || s[i] == 'i')
 		len = ft_signed(va_arg(*args, int), 10, "0123456789", len);
 	else if (s[i] == 'u')
-		len = ft_u(va_arg(*args, int), 10, "0123456789", len);
+		len = ft_u(va_arg(*args, unsigned int), 10, "0123456789", len);
 	else if (s[i] == 'x')
-		len = ft_u(va_arg(*args, int), 16, "0123456789abcdef", len);
+		len = ft_u(va_arg(*args, unsigned int), 16, "0123456789abcdef", len);
 	else if (s[i] == 'X')
-		len = ft_u(va_arg(*args, int), 16, "0123456789ABCDEF", len);
+		len = ft_u(va_arg(*args, unsigned int), 16, "0123456789ABCDEF", len);
 	else if (s[i] == 'p')
 	{
 		write(1, "0x", 2);
 		len = len + 2;
-		len = ft_u((long)va_arg(*args, void *), 16, "0123456789abcdef", len);
+		len = ft_p((long)va_arg(*args, void *), 16, "0123456789abcdef", len);
 	}
 	return (len);
 }
@@ -79,8 +92,8 @@ int	ft_printf(const char *text, ...)
 	{
 		if (text[i] == '%')
 		{	
-			length = ft_checktype(text, i + 1, length, &args);
-			i = i + 1;
+			i++;
+			length = ft_checktype(text, i, length, &args);
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: smetzler <smetzler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 14:55:17 by smetzler          #+#    #+#             */
-/*   Updated: 2021/09/23 16:54:01 by smetzler         ###   ########.fr       */
+/*   Updated: 2021/09/24 15:08:02 by smetzler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int	ft_putstrinc_fd(char *c, int fd, int len)
 	int	i;
 
 	i = 0;
+	if (c == NULL)
+	{
+		len = ft_putstrinc_fd("(null)", fd, len);
+		return (len);
+	}
 	while (c[i] != '\0')
 	{
 		write(fd, &c[i], 1);
