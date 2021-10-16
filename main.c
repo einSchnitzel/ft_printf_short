@@ -45,7 +45,7 @@ int main (void)
 	ft_printf(" %p %p \n", (void*)LONG_MIN, (void*)LONG_MAX);
 	ft_printf(" %p %p \n", (void*)INT_MIN, (void*)INT_MAX);
 	ft_printf(" %p %p \n", (void*)ULONG_MAX, (void*)-ULONG_MAX);
-	ft_printf(" %s\n", "this is just someeeee veeeryy loon string herrreeeeeee...!");
+	ft_printf(" %s\n", "this is just some unnecessarily enlonged sentence to create a somewhat extended string here, of course this is not according to norme anymore!");
 	//ft_printf()
 
 }
