@@ -39,7 +39,9 @@ int	ft_u(unsigned int n, unsigned int base, char *s, int len)
 	len = ft_putcharinc_fd(s[n % base], 1, len);
 	return (len);
 }
-
+/*
+** printing pointers, a special case using longs due to pointer size 
+*/
 int	ft_p(unsigned long ptr, unsigned int base, char *s, int len)
 {
 	if (ptr >= base)
@@ -78,6 +80,10 @@ int	ft_checktype(const char *s, int i, int len, va_list *args)
 	}
 	return (len);
 }
+
+/*
+** printf handling variadic arguments and writing the string one char at a time
+*/
 
 int	ft_printf(const char *text, ...)
 {
